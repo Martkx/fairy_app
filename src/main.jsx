@@ -5,7 +5,7 @@ import HomePage from './HomePage';
 import ProfilePage from './ProfilePage';
 import Map from './Map';
 import './index.css';
-asd
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
