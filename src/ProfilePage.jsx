@@ -20,29 +20,29 @@ export default function ProfilePage() {
 
       {/* User Info */}
       <div className="flex flex-col items-center">
-        <div className="w-20 h-20 bg-purple-200 text-purple-800 font-bold text-3xl rounded-full flex items-center justify-center">
+        <div className="w-40 h-40 bg-purple-200 text-purple-800 font-bold text-8xl rounded-full flex items-center justify-center">
           M
         </div>
-        <p className="mt-2 text-lg font-medium">Max Mustermann</p>
+        <p className="mt-4 text-4xl font-semibold">Max Mustermann</p>
       </div>
 
       {/* Account Section */}
       <div className="w-full flex justify-center">
         <div className="w-full max-w-md px-6">
-            <h2 className="text-md font-bold mb-4 text-center">Konto</h2>
-            <div className="flex flex-col space-y-4">
+          <h2 className="text-3xl font-bold mb-6 text-center">Konto</h2>
+          <div className="flex flex-col space-y-5">
             {profileItems.map((item, index) => (
-                <div key={index} className="flex items-center space-x-4">
-                <span className="text-xl w-6 text-center">{item.icon}</span>
-                <span className="text-md">{item.label}</span>
-                </div>
+              <div key={index} className="flex items-center space-x-4">
+                <span className="text-3xl w-8 text-center">{item.icon}</span>
+                <span className="text-lg">{item.label}</span>
+              </div>
             ))}
-            </div>
+          </div>
         </div>
       </div>
-      {/* Normal Footer */}
-        <Footer/>
 
+      {/* Normal Footer */}
+      <Footer />
     </div>
   );
 }

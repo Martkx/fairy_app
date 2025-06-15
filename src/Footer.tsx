@@ -8,8 +8,12 @@ export default function Footer() {
   return (
     <>
       {/* Normal Footer */}
-      <footer className="w-full bg-purple-200 text-purple-900 text-center py-2">
-        <p className="text-sm">© 2025 Fairy. Alle Rechte vorbehalten.</p>
+      <footer className="w-full bg-[#F2DAFF] text-purple-900 text-center py-4 text-sm space-y-1 mt-10">
+        <p>© 2025 Fairy. Alle Rechte vorbehalten.</p>
+        <p>Fairy GmbH, Fairyweg 12, 04109 Leipzig</p>
+        <p>Handelsregister: HRB 123456 | Amtsgericht Leipzig</p>
+        <p>USt-IdNr.: DE123456789</p>
+        <p><a href="/impressum" className="underline hover:text-purple-700">Impressum</a> | <a href="/datenschutz" className="underline hover:text-purple-700">Datenschutz</a></p>
       </footer>
 
       {/* Sticky Footer with Icons */}
