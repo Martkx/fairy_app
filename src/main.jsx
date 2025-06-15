@@ -7,6 +7,8 @@ import Map from './Map';
 import UploadData from './UploadData'
 import ManualInvoiceEntry from './ManualEntry'
 import UploadPhoto from './UploadPhoto'
+import SettingsPage from './Settings';
+import ChatWithMia from './ChatBot';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -19,7 +21,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/UploadData" element={<UploadData />} />
         <Route path="/ManualInvoiceEntry" element={<ManualInvoiceEntry />} />
         <Route path="/UploadPhoto" element={<UploadPhoto />} />
-        ManualInvoiceEntry
+        <Route path="/Settings" element={<SettingsPage />} />
+        <Route path="/ChatBot" element={<ChatWithMia />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Camera, Upload } from "lucide-react";
+import Header from "./Header";
 
 
 export default function UploadPhoto() {
@@ -32,60 +33,9 @@ export default function UploadPhoto() {
   };
 
   return (
-    <div className="min-h-screen bg-purple-100 flex flex-col justify-between p-6 space-y-6 relative">
+    <div className="min-h-screen bg-[#ffffff] flex flex-col justify-between px-0 space-y-6 relative">
       {/* Header */}
-      <header className="w-full bg-purple-200 px-4 py-4 rounded-xl relative">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="relative">
-              <div className="space-y-1 cursor-pointer" onClick={() => setShowMenu(!showMenu)}>
-                <div className="w-6 h-1 bg-white rounded"></div>
-                <div className="w-6 h-1 bg-white rounded"></div>
-                <div className="w-6 h-1 bg-white rounded"></div>
-              </div>
-              {showMenu && (
-                <div className="absolute top-8 left-0 bg-white rounded-md shadow-lg z-20 w-40 py-2">
-                  <button
-                    onClick={() => navigate('/settings')}
-                    className="block w-full text-left px-4 py-2 text-sm text-purple-800 hover:bg-purple-100"
-                  >
-                    Einstellungen
-                  </button>
-                  <button
-                    onClick={() => navigate('/profile')}
-                    className="block w-full text-left px-4 py-2 text-sm text-purple-800 hover:bg-purple-100"
-                  >
-                    Benutzerdaten
-                  </button>
-                  <button
-                    onClick={() => navigate('/help')}
-                    className="block w-full text-left px-4 py-2 text-sm text-purple-800 hover:bg-purple-100"
-                  >
-                    Hilfe
-                  </button>
-                </div>
-              )}
-            </div>
-            <img
-              src="/user.png"
-              alt="User"
-              className="w-10 h-10 rounded-full object-cover cursor-pointer"
-              onClick={() => navigate('/profile')}
-            />
-          </div>
-
-          <div className="flex flex-col items-center justify-center text-center flex-1 cursor-pointer" onClick={() => navigate('/')}> 
-            <img
-              src="/logo.png"
-              alt="Fairy"
-              className="w-12 h-12 object-contain mb-1"
-            />
-            <h1 className="text-lg font-bold text-purple-800 leading-tight">
-              Fairy. Wissen was <span className="text-purple-700">fair</span> ist
-            </h1>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <main className="flex-grow flex flex-col items-center space-y-6">
         <h1 className="text-2xl font-bold text-purple-900">Rechnungsfoto hochladen oder aufnehmen</h1>
