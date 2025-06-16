@@ -23,14 +23,15 @@ export default function ChatWithMia() {
     <div className="min-h-screen bg-purple-50 flex flex-col">
       <Header />
 
-      <main className="flex-grow p-4 flex flex-col">
-        <div className="flex-1 overflow-y-auto space-y-4">
+      <main className="flex-grow p-6 flex flex-col">
+        {/* Nachrichtenbereich */}
+        <div className="flex-1 overflow-y-auto space-y-6 text-xl">
           {messages.map((msg, idx) => (
             <div
               key={idx}
-              className={`max-w-xs px-4 py-2 rounded-lg text-white ${
+              className={`max-w-md px-6 py-4 rounded-2xl ${
                 msg.sender === "mia"
-                  ? "bg-purple-700 self-start"
+                  ? "bg-[#573A6F] text-white self-start"
                   : "bg-purple-300 text-black self-end"
               }`}
             >
@@ -39,18 +40,19 @@ export default function ChatWithMia() {
           ))}
         </div>
 
-        <div className="mt-4 flex items-center">
+        {/* Eingabefeld */}
+        <div className="mt-3 flex items-center">
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
             placeholder="Nachricht an Mia..."
-            className="flex-1 border border-purple-300 rounded-md px-4 py-2 mr-2"
+            className="flex-1 border border-purple-300 rounded-md px-6 py-4 text-xl mr-4"
           />
           <button
             onClick={handleSend}
-            className="bg-purple-700 text-white px-4 py-2 rounded-md hover:bg-purple-800"
+            className="bg-[#573A6F] text-white text-xl px-6 py-4 rounded-md hover:bg-purple-800"
           >
             Senden
           </button>

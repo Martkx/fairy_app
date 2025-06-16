@@ -29,25 +29,30 @@ export default function HomePage() {
     {/* Jobs Categories */}
 <div className="w-full overflow-x-auto">
   <div className="flex space-x-4 px-4 min-w-max">
-    {[
-      { image: 'gaertner.jpg', label: 'Gärtner' },
-      { image: 'elektriker.jpg', label: 'Elektriker' },
-      { image: 'dachdecker.jpg', label: 'Dachdecker' },
-      { image: 'maler.jpg', label: 'Maler' },
-      { image: 'fliesenleger.jpg', label: 'Fliesenleger' },
-      { image: 'installateur.jpg', label: 'Installateur' },
-      { image: 'tischler.jpg', label: 'Tischler' },
-      { image: 'heizungsbauer.jpg', label: 'Heizungsbauer' },
-      { image: 'bodenleger.jpg', label: 'Bodenleger' },
-      { image: 'trockenbauer.jpg', label: 'Trockenbauer' }
-    ].map((job, index) => (
-      <div key={index} className="flex-shrink-0 text-center">
-        <div className="w-32 h-48 rounded-full mx-auto overflow-hidden">
-          <img src={`/${job.image}`} alt={job.label} className="w-full h-full object-cover" />
-        </div>
-        <p className="text-xl font-semibold mt-2 text-[#573A6F]">{job.label}</p>
-      </div>
-    ))}
+  {[
+  { image: 'gaertner.jpg', label: 'Gärtner' },
+  { image: 'elektriker.jpg', label: 'Elektriker' },
+  { image: 'dachdecker.jpg', label: 'Dachdecker' },
+  { image: 'maler.jpg', label: 'Maler', path: '/Painter' }, // ➤ Pfad für Maler
+  { image: 'fliesenleger.jpg', label: 'Fliesenleger' },
+  { image: 'installateur.jpg', label: 'Installateur' },
+  { image: 'tischler.jpg', label: 'Tischler' },
+  { image: 'heizungsbauer.jpg', label: 'Heizungsbauer' },
+  { image: 'bodenleger.jpg', label: 'Bodenleger' },
+  { image: 'trockenbauer.jpg', label: 'Trockenbauer' }
+].map((job, index) => (
+  <div
+    key={index}
+    className="flex-shrink-0 text-center cursor-pointer"
+    onClick={() => job.path && navigate(job.path)} // ➤ Nur wenn Pfad existiert
+  >
+    <div className="w-32 h-48 rounded-full mx-auto overflow-hidden">
+      <img src={`/${job.image}`} alt={job.label} className="w-full h-full object-cover" />
+    </div>
+    <p className="text-xl font-semibold mt-2 text-[#573A6F]">{job.label}</p>
+  </div>
+))}
+
   </div>
 </div>
 
@@ -61,9 +66,9 @@ export default function HomePage() {
         </div>
       </div>
       
-      {/* Reward Section */}
+      {/* Scan Section */}
       <div className="bg-[#EEDDF6] p-4 rounded-xl text-center flex items-center space-x-4 mx-4 mt-10">
-        <img src="rewards.png" alt="Map Icon" className="w-25 h-40 object-contain" />
+        <img src="file-scan.svg" alt="Map Icon" className="w-25 h-40 object-contain" onClick={() => navigate('/UploadData')}/>
         <div className="flex-1">
           <p className="font-semibold text-4xl text-[#573A6F]">Rechnungen scannen.</p>
           <p className="font-semibold text-4xl text-[#573A6F]">Punkte sammeln.</p>
@@ -71,9 +76,9 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Empty Section Placeholder */}
+      {/* Rewrd Section */}
       <div className="bg-[#EEDDF6] p-4 rounded-xl text-center flex items-center space-x-4 mx-4 mt-10">
-        <img src="cup.png" alt="Map Icon" className="w-25 h-40 object-contain" />
+        <img src="trophy.svg" alt="Map Icon" className="w-25 h-40 object-contain" onClick={() => navigate('/Rewards')}/>
         <div className="flex-1">
           <p className="font-semibold text-4xl text-[#573A6F]">Meine Rewards.</p>
           <p className="font-semibold text-4xl text-[#573A6F]">Meine Erfolge.</p>

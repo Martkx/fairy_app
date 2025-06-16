@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Camera, Upload } from "lucide-react";
+import {Upload, Sparkles } from "lucide-react";
 
 export default function Footer() {
   const navigate = useNavigate();
@@ -8,7 +8,7 @@ export default function Footer() {
   return (
     <>
       {/* Normal Footer */}
-      <footer className="w-full bg-[#F2DAFF] text-purple-900 text-center py-4 text-sm space-y-1 mt-10">
+      <footer className="w-full bg-[#F2DAFF] text-[#573A6F] text-center py-4 text-sm space-y-1 mt-10">
         <p>© 2025 Fairy. Alle Rechte vorbehalten.</p>
         <p>Fairy GmbH, Fairyweg 12, 04109 Leipzig</p>
         <p>Handelsregister: HRB 123456 | Amtsgericht Leipzig</p>
@@ -22,14 +22,14 @@ export default function Footer() {
           onClick={() => navigate('/upload-photo')}
           className="flex flex-col items-center text-purple-800"
         >
-          <Upload className="w-6 h-6" />
+          <Upload className="w-10 h-10" />
           <span className="text-xs">Rechnung</span>
         </button>
         <button
           onClick={() => navigate('/ChatBot')}
           className="flex flex-col items-center text-purple-800"
         >
-          <Camera className="w-6 h-6" />
+          <Sparkles className="w-10 h-10" />
           <span className="text-xs">KI-Assistent</span>
         </button>
       </div>
