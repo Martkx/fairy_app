@@ -85,6 +85,21 @@ export default function HomePage() {
         </div>
       </div>
 
+      {/* Material Costs */}
+      <div className="bg-[#EEDDF6] p-4 rounded-xl text-center flex items-center space-x-4 mx-4 mt-10">
+        <img
+          src="chart-candlestick.svg"
+          alt="Chart Icon"
+          className="w-25 h-40 object-contain"
+          onClick={() => navigate('/ConstructionCostCheck')}
+        />
+        <div className="flex-1">
+          <p className="font-semibold text-4xl text-[#573A6F]">Materialkosten im Blick.</p>
+          <p className="font-semibold text-xl text-[#573A6F] mt-2">Jetzt vergleichen und clever bauen!</p>
+        </div>
+      </div>
+
+
 
       {/* Normal Footer */}
         <Footer/>

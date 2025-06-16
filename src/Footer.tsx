@@ -19,15 +19,15 @@ export default function Footer() {
       {/* Sticky Footer with Icons */}
       <div className="fixed bottom-0 left-0 w-full bg-white border-t border-purple-200 flex justify-around items-center py-3 z-20">
         <button
-          onClick={() => navigate('/upload-photo')}
-          className="flex flex-col items-center text-purple-800"
+          onClick={() => navigate('/UploadPhoto')}
+          className="flex flex-col items-center text-[#573A6F]"
         >
           <Upload className="w-10 h-10" />
           <span className="text-xs">Rechnung</span>
         </button>
         <button
           onClick={() => navigate('/ChatBot')}
-          className="flex flex-col items-center text-purple-800"
+          className="flex flex-col items-center text-[#573A6F]"
         >
           <Sparkles className="w-10 h-10" />
           <span className="text-xs">KI-Assistent</span>

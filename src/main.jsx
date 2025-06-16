@@ -11,6 +11,7 @@ import SettingsPage from './Settings';
 import ChatWithMia from './ChatBot';
 import Painter from './Painter';
 import Rewards from './Rewards'
+import ConstructionCostCheck from './ConstructionCosts';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -27,6 +28,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/ChatBot" element={<ChatWithMia />} />
         <Route path="/Painter" element={<Painter />} />
         <Route path="/Rewards" element={<Rewards />} />
+        <Route path="/ConstructionCostCheck" element={<ConstructionCostCheck />} />
 
       </Routes>
     </BrowserRouter>
