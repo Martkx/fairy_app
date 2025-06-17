@@ -53,7 +53,7 @@ export default function Header() {
             alt="Fairy"
             className="w-24 h-30 object-contain mb-1"
           />
-            <h1 className="text-3xl text-[#573A6F] leading-tight">
+            <h1 className="text-4xl text-[#573A6F] leading-tight">
                 <strong>Fairy</strong>. Wissen was <span className="font-bold">fair</span> ist
             </h1>
 

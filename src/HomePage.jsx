@@ -15,12 +15,12 @@ export default function HomePage() {
       {/* Statistics Circle */}
       <div className="w-full bg-gradient-to-b from-[#EEDDF6] to-white p-8 text-center mt-0">
 
-        <p className="text-sm font-semibold">Du hast bereits 1669 Euro transparent verglichen</p>
+        <p className="text-3xl font-semibold">Du hast bereits 1669 Euro transparent verglichen</p>
         <div className="relative w-32 h-32 mx-auto my-4">
           <div className="absolute inset-0 rounded-full border-8 border-red-400"></div>
           <div className="absolute inset-2 flex flex-col items-center justify-center">
-            <span className="text-2xl font-bold">1669€</span>
-            <span className="text-sm">verglichen</span>
+            <span className="text-3xl font-bold">1669€</span>
+            <span className="text-xl">verglichen</span>
           </div>
         </div>
       </div>
@@ -33,7 +33,7 @@ export default function HomePage() {
   { image: 'gaertner.jpg', label: 'Gärtner' },
   { image: 'elektriker.jpg', label: 'Elektriker' },
   { image: 'dachdecker.jpg', label: 'Dachdecker' },
-  { image: 'maler.jpg', label: 'Maler', path: '/Painter' }, // ➤ Pfad für Maler
+  { image: 'maler.jpg', label: 'Maler', path: '/Painter' },
   { image: 'fliesenleger.jpg', label: 'Fliesenleger' },
   { image: 'installateur.jpg', label: 'Installateur' },
   { image: 'tischler.jpg', label: 'Tischler' },
@@ -59,16 +59,16 @@ export default function HomePage() {
 
 
       {/* Map Section */}
-      <div className="bg-[#EEDDF6] p-4 rounded-xl text-center flex items-center space-x-4 mx-4 mt-10">
-        <img src="/map.png" alt="Map Icon" className="w-25 h-40 object-contain" onClick={() => navigate('/map')}/>
+      <div className="bg-[#EEDDF6] p-4 rounded-xl text-center flex items-center space-x-4 mx-4 mt-10 cursor-pointer" onClick={() => navigate('/map')}>
+        <img src="/map.png" alt="Map Icon" className="w-25 h-40 object-contain" />
         <div className="flex-1">
           <p className="font-semibold text-4xl text-[#573A6F]">Entdecke die Fairy-Karte</p>
         </div>
       </div>
       
       {/* Scan Section */}
-      <div className="bg-[#EEDDF6] p-4 rounded-xl text-center flex items-center space-x-4 mx-4 mt-10">
-        <img src="file-scan.svg" alt="Map Icon" className="w-25 h-40 object-contain" onClick={() => navigate('/UploadData')}/>
+      <div className="bg-[#EEDDF6] p-4 rounded-xl text-center flex items-center space-x-4 mx-4 mt-10 cursor-pointer" onClick={() => navigate('/UploadData')}>
+        <img src="file-scan.svg" alt="Map Icon" className="w-25 h-40 object-contain" />
         <div className="flex-1">
           <p className="font-semibold text-4xl text-[#573A6F]">Rechnungen scannen.</p>
           <p className="font-semibold text-4xl text-[#573A6F]">Punkte sammeln.</p>
@@ -77,8 +77,8 @@ export default function HomePage() {
       </div>
 
       {/* Rewrd Section */}
-      <div className="bg-[#EEDDF6] p-4 rounded-xl text-center flex items-center space-x-4 mx-4 mt-10">
-        <img src="trophy.svg" alt="Map Icon" className="w-25 h-40 object-contain" onClick={() => navigate('/Rewards')}/>
+      <div className="bg-[#EEDDF6] p-4 rounded-xl text-center flex items-center space-x-4 mx-4 mt-10 cursor-pointer" onClick={() => navigate('/Rewards')}>
+        <img src="trophy.svg" alt="Map Icon" className="w-25 h-40 object-contain" />
         <div className="flex-1">
           <p className="font-semibold text-4xl text-[#573A6F]">Meine Rewards.</p>
           <p className="font-semibold text-4xl text-[#573A6F]">Meine Erfolge.</p>
@@ -86,7 +86,7 @@ export default function HomePage() {
       </div>
 
       {/* Material Costs */}
-      <div className="bg-[#EEDDF6] p-4 rounded-xl text-center flex items-center space-x-4 mx-4 mt-10">
+      <div className="bg-[#EEDDF6] p-4 rounded-xl text-center flex items-center space-x-4 mx-4 mt-10 cursor-pointer" onClick={() => navigate('/ConstructionCostCheck')}>
         <img
           src="chart-candlestick.svg"
           alt="Chart Icon"

@@ -17,7 +17,7 @@ export default function RewardsPage() {
     <div className="min-h-screen bg-white flex flex-col">
       <Header />
 
-      <main className="flex flex-col px-6 pt-6 pb-24">
+      <main className="flex flex-col px-6 pt-8 pb-24 flex-grow">
         <h1 className="text-3xl font-bold text-[#573A6F] text-center mb-4">
           Deine Fair-Points
         </h1>

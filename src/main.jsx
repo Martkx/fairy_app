@@ -1,3 +1,4 @@
+import 'leaflet/dist/leaflet.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -10,9 +11,11 @@ import UploadPhoto from './UploadPhoto'
 import SettingsPage from './Settings';
 import ChatWithMia from './ChatBot';
 import Painter from './Painter';
-import Rewards from './Rewards'
+import Rewards from './Rewards';
+import Map2 from './Map2'
 import ConstructionCostCheck from './ConstructionCosts';
 import './index.css';
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -29,6 +32,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/Painter" element={<Painter />} />
         <Route path="/Rewards" element={<Rewards />} />
         <Route path="/ConstructionCostCheck" element={<ConstructionCostCheck />} />
+        <Route path="/Map2" element={<Map2 />} />
 
       </Routes>
     </BrowserRouter>
