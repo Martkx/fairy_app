@@ -59,7 +59,7 @@ export default function HomePage() {
 
 
       {/* Map Section */}
-      <div className="bg-[#EEDDF6] p-4 rounded-xl text-center flex items-center space-x-4 mx-4 mt-10 cursor-pointer" onClick={() => navigate('/map')}>
+      <div className="bg-[#EEDDF6] p-4 rounded-xl text-center flex items-center space-x-4 mx-4 mt-10 cursor-pointer" onClick={() => navigate('/map2')}>
         <img src="/map.png" alt="Map Icon" className="w-25 h-40 object-contain" />
         <div className="flex-1">
           <p className="font-semibold text-4xl text-[#573A6F]">Entdecke die Fairy-Karte</p>

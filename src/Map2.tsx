@@ -22,23 +22,24 @@ const leipzigCoords = [51.3397, 12.3731];
 import zipGeoJSON from "./data/2_hoch.geo.json";
 
 function getColor(feature) {
-  const type = feature.properties.ENGTYPE_3;
-  let value = 600;
-
-  if (type === "Urban District") {
-    value = 1200;
-  } else if (type === "Rural District") {
-    value = 700 + Math.floor(Math.random() * 300);
-  } else {
-    value = 500 + Math.floor(Math.random() * 200);
+    const type = feature.properties.ENGTYPE_3;
+    let value = 600;
+  
+    if (type === "Urban District") {
+      value = 1050 + Math.floor(Math.random() * 150); // 1050–1200
+    } else if (type === "Rural District") {
+      value = 700 + Math.floor(Math.random() * 200);  // 700–900
+    } else {
+      value = 500 + Math.floor(Math.random() * 150);  // 500–650
+    }
+  
+    return value > 1100 ? "#b10026" :
+           value > 950  ? "#e31a1c" :
+           value > 750  ? "#fd8d3c" :
+           value > 600  ? "#fecc5c" :
+                          "#ffffb2";
   }
-
-  return value > 1100 ? "#b10026" :
-         value > 950  ? "#e31a1c" :
-         value > 750  ? "#fd8d3c" :
-         value > 600  ? "#fecc5c" :
-                       "#ffffb2";
-}
+  
 
 function ChoroplethLayer() {
   const style = (feature) => ({
