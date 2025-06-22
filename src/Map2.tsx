@@ -16,6 +16,24 @@ const crafts = [
   "Bodenleger",
   "Trockenbauer",
 ];
+const expensiveCities = [
+    "München",
+    "Frankfurt am Main",
+    "Stuttgart",
+    "Freiburg",
+    "Heidelberg",
+    "Düsseldorf",
+    "Mainz",
+    "Wiesbaden",
+    "Hamburg",
+    "Berlin",
+    "Köln",
+    "Erlangen",
+    "Ingolstadt",
+    "Regensburg",
+    "Augsburg"
+  ];
+  
 
 const leipzigCoords = [51.3397, 12.3731];
 
@@ -23,9 +41,13 @@ import zipGeoJSON from "./data/2_hoch.geo.json";
 
 function getColor(feature) {
     const type = feature.properties.ENGTYPE_3;
+    const city = feature.properties.NAME_3
     let value = 600;
   
-    if (type === "Urban District") {
+    if (city in expensiveCities) {
+        value = 2000
+    }
+    else if (type === "Urban District") {
       value = 1050 + Math.floor(Math.random() * 150); // 1050–1200
     } else if (type === "Rural District") {
       value = 700 + Math.floor(Math.random() * 200);  // 700–900
@@ -33,7 +55,9 @@ function getColor(feature) {
       value = 500 + Math.floor(Math.random() * 150);  // 500–650
     }
   
-    return value > 1100 ? "#b10026" :
+    return value > 1700 ? "#650016":
+           value > 1100 ? "#b10026" :
+           value > 1000 ? "#b13300":
            value > 950  ? "#e31a1c" :
            value > 750  ? "#fd8d3c" :
            value > 600  ? "#fecc5c" :
