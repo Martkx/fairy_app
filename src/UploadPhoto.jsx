@@ -8,6 +8,7 @@ import Tesseract from "tesseract.js";
 export default function UploadPhoto() {
   const navigate = useNavigate();
   const [image, setImage] = useState(null);
+  const [ocrText, setOcrText] = useState("");
   const [extractedData, setExtractedData] = useState({
     material: null,
     arbeit: null,
@@ -16,6 +17,7 @@ export default function UploadPhoto() {
   const [manualItems, setManualItems] = useState([]);
   const [points, setPoints] = useState(0);
   const [showPopup, setShowPopup] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef();
 
   const handleFileChange = (e) => {
@@ -31,18 +33,20 @@ export default function UploadPhoto() {
       const img = new Image();
       img.crossOrigin = "anonymous";
       img.onload = () => {
+        const scale = 2;
         const canvas = document.createElement("canvas");
+        canvas.width = img.width * scale;
+        canvas.height = img.height * scale;
+
         const ctx = canvas.getContext("2d");
-        canvas.width = img.width;
-        canvas.height = img.height;
+        ctx.scale(scale, scale);
         ctx.drawImage(img, 0, 0);
 
-        // Graustufen + Kontrast
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const data = imageData.data;
         for (let i = 0; i < data.length; i += 4) {
           const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
-          const binarized = avg > 160 ? 255 : 0;
+          const binarized = avg > 180 ? 255 : 0;
           data[i] = data[i + 1] = data[i + 2] = binarized;
         }
         ctx.putImageData(imageData, 0, 0);
@@ -53,33 +57,41 @@ export default function UploadPhoto() {
   };
 
   const extractTextFromImage = async (imageUrl) => {
+    setIsLoading(true);
     const processedImageUrl = await preprocessImage(imageUrl);
 
     Tesseract.recognize(processedImageUrl, "deu+eng", {
       logger: (m) => console.log(m),
-    }).then(({ data: { text } }) => {
-      console.log("OCR TEXT:\n", text);
+    })
+      .then(({ data: { text } }) => {
+        setOcrText(text);
 
-      const materialMatch = text.match(/(Summe\s*)?Material(?:kosten)?[:\s]*([\d.,]+)\s*€/i);
-      const arbeitMatch = text.match(/(Summe\s*)?Arbeit(?:skosten)?[:\s]*([\d.,]+)\s*€/i);
-      const wegzeitMatch = text.match(/(Summe\s*)?Weg(?:zeit|kosten)?[:\s]*([\d.,]+)\s*€/i);
+        const materialMatch = text.match(/Summe\s*Material(?:kosten)?\s*[:\-]?\s*([\d.,]+)\s*€/i);
+        const arbeitMatch = text.match(/Summe\s*Arbeit(?:skosten)?\s*[:\-]?\s*([\d.,]+)\s*€/i);
+        const wegzeitMatch = text.match(/Summe\s*Weg(?:zeit|kosten)?\s*[:\-]?\s*([\d.,]+)\s*€/i);
 
-      const material = materialMatch ? parseFloat(materialMatch[2].replace(",", ".")) : 0;
-      const arbeit = arbeitMatch ? parseFloat(arbeitMatch[2].replace(",", ".")) : 0;
-      const wegzeit = wegzeitMatch ? parseFloat(wegzeitMatch[2].replace(",", ".")) : 0;
+        const material = materialMatch ? parseFloat(materialMatch[1].replace(",", ".")) : 0;
+        const arbeit = arbeitMatch ? parseFloat(arbeitMatch[1].replace(",", ".")) : 0;
+        const wegzeit = wegzeitMatch ? parseFloat(wegzeitMatch[1].replace(",", ".")) : 0;
 
-      const total = material + arbeit + wegzeit;
+        const total = material + arbeit + wegzeit;
 
-      setExtractedData({
-        material: materialMatch ? materialMatch[2] + " €" : "Nicht gefunden",
-        arbeit: arbeitMatch ? arbeitMatch[2] + " €" : "Nicht gefunden",
-        wegzeit: wegzeitMatch ? wegzeitMatch[2] + " €" : "Nicht gefunden",
+        setExtractedData({
+          material: materialMatch ? materialMatch[1] + " €" : "Nicht gefunden",
+          arbeit: arbeitMatch ? arbeitMatch[1] + " €" : "Nicht gefunden",
+          wegzeit: wegzeitMatch ? wegzeitMatch[1] + " €" : "Nicht gefunden",
+        });
+
+        setPoints(Math.floor(total));
+        setShowPopup(true);
+        setTimeout(() => setShowPopup(false), 5000);
+      })
+      .catch((error) => {
+        console.error("OCR Fehler:", error);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-
-      setPoints(Math.floor(total));
-      setShowPopup(true);
-      setTimeout(() => setShowPopup(false), 5000);
-    });
   };
 
   const addManualItem = () => {
@@ -136,11 +148,12 @@ export default function UploadPhoto() {
   return (
     <div className="min-h-screen bg-[#f9f7fc] flex flex-col justify-between px-4 py-6 relative">
       <Header />
-      <main className="flex-grow flex flex-col items-center space-y-8">
-        <h1 className="text-3xl font-extrabold text-[#573A6F] text-center">
+      <main className="flex-grow flex flex-col items-center space-y-10">
+        <h1 className="text-4xl font-extrabold text-[#573A6F] mt-8 text-center">
           Analysiere deine Rechnung
         </h1>
-        <div className="bg-white p-6 rounded-2xl shadow-lg w-full max-w-md space-y-6 border border-gray-200">
+
+        <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-3xl space-y-8 border border-gray-200 text-lg">
           <input
             type="file"
             accept="image/*"
@@ -148,52 +161,61 @@ export default function UploadPhoto() {
             onChange={handleFileChange}
             className="hidden"
           />
-          <button
-            onClick={() => fileInputRef.current.click()}
-            className="flex items-center gap-2 bg-[#573A6F] text-white px-6 py-3 rounded-lg hover:bg-purple-800 transition duration-300 text-lg font-medium"
-          >
-            <Upload className="w-5 h-5" />
-            Dokument scannen oder hochladen
-          </button>
+          <div className="flex justify-center">
+            <button
+              onClick={() => fileInputRef.current.click()}
+              className="flex items-center gap-3 bg-[#573A6F] text-white px-6 py-4 rounded-lg hover:bg-purple-800 transition duration-300 text-3xl font-semibold"
+            >
+              <Upload className="w-6 h-6" />
+              Dokument scannen oder hochladen
+            </button>
+          </div>
+
 
           {image && (
             <div className="w-full">
-              <img src={image} alt="Vorschau" className="w-full rounded-md shadow-md border border-gray-300" />
+              <img
+                src={image}
+                alt="Vorschau"
+                className="w-full rounded-md shadow-md border border-gray-300"
+              />
             </div>
           )}
 
           {(extractedData.material || extractedData.arbeit || extractedData.wegzeit) && (
-            <div className="w-full text-left space-y-4">
-              <h2 className="text-xl font-semibold text-gray-800">Erkannte Rechnungsdaten:</h2>
-              <ul className="text-gray-700 space-y-1">
+            <div className="w-full text-left space-y-6">
+              <h2 className="text-3xl font-semibold text-gray-800">
+                Erkannte Rechnungsdaten:
+              </h2>
+              <ul className="text-gray-700 space-y-2 text-2xl">
                 <li><strong>Materialkosten:</strong> {extractedData.material}</li>
                 <li><strong>Arbeitskosten:</strong> {extractedData.arbeit}</li>
                 <li><strong>Wegzeit / Anfahrt:</strong> {extractedData.wegzeit}</li>
               </ul>
 
-              <div className="mt-4 space-y-3">
+              <div className="space-y-4">
                 {manualItems.map((item, index) => (
-                  <div key={index} className="flex gap-2">
+                  <div key={index} className="flex gap-3">
                     <input
                       type="text"
                       placeholder="Bezeichnung"
                       value={item.label}
                       onChange={(e) => updateManualItem(index, "label", e.target.value)}
-                      className="w-1/2 border border-gray-300 rounded px-2 py-1"
+                      className="w-1/2 border border-gray-300 rounded px-3 py-2"
                     />
                     <input
                       type="number"
                       placeholder="Betrag (€)"
                       value={item.amount}
                       onChange={(e) => updateManualItem(index, "amount", e.target.value)}
-                      className="w-1/2 border border-gray-300 rounded px-2 py-1"
+                      className="w-1/2 border border-gray-300 rounded px-3 py-2"
                     />
                   </div>
                 ))}
 
                 <button
                   onClick={addManualItem}
-                  className="flex items-center text-[#573A6F] font-medium hover:underline"
+                  className="flex items-center text-[#573A6F] font-medium hover:underline text-xl"
                 >
                   <Plus className="w-5 h-5 mr-1" /> Weitere Position hinzufügen
                 </button>
@@ -201,9 +223,9 @@ export default function UploadPhoto() {
 
               <button
                 onClick={startAnalysis}
-                className="mt-6 w-full flex items-center justify-center gap-2 bg-[#573A6F] text-white px-4 py-3 rounded-lg hover:bg-[#3f2a52] transition"
+                className="mt-6 w-full flex items-center justify-center gap-3 bg-[#573A6F] text-white px-5 py-4 rounded-lg hover:bg-[#3f2a52] transition text-3xl font-semibold"
               >
-                <BarChart2 className="w-5 h-5" />
+                <BarChart2 className="w-6 h-6" />
                 Analyse starten
               </button>
             </div>
@@ -211,12 +233,21 @@ export default function UploadPhoto() {
         </div>
       </main>
 
+      {isLoading && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+          <div className="flex flex-col items-center space-y-6">
+            <div className="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-[#573A6F]"></div>
+            <div className="text-white text-4xl font-medium">Dokument wird gescannt...</div>
+          </div>
+        </div>
+      )}
+
       {showPopup && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl shadow-2xl p-12 w-[90%] max-w-2xl text-center">
             <PartyPopper className="w-24 h-24 text-[#573A6F] mx-auto mb-6" />
             <h2 className="text-4xl font-bold text-[#573A6F]">
-              Du hast dir {5} Fairy-Punkte gesichert!
+              Du hast dir {points} Fairy-Punkte gesichert!
             </h2>
           </div>
         </div>

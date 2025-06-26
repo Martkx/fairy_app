@@ -31,7 +31,7 @@ export default function FairiScorePage() {
         <ArrowLeft className="mr-2" /> Zurück
       </button>
 
-      <h1 className="text-2xl font-bold text-gray-800">Fairi Score</h1>
+      <h1 className="text-2xl font-bold text-gray-800">Fairy Score</h1>
 
       <div className="w-48 h-48">
         <CircularProgressbarWithChildren
