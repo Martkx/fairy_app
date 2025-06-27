@@ -108,42 +108,50 @@ export default function UploadPhoto() {
     const material = parseFloat((extractedData.material || "0").replace("€", "").replace(",", ".")) || 0;
     const arbeit = parseFloat((extractedData.arbeit || "0").replace("€", "").replace(",", ".")) || 0;
     const wegzeit = parseFloat((extractedData.wegzeit || "0").replace("€", "").replace(",", ".")) || 0;
-
-    const versteckteKosten = manualItems.reduce((sum, item) => {
-      const num = parseFloat(item.amount);
-      return sum + (isNaN(num) ? 0 : num);
-    }, 0);
-
-    const total = material + arbeit + wegzeit + versteckteKosten;
-
+  
+    const sonstigeItems = manualItems
+      .filter((item) => item.amount && !isNaN(parseFloat(item.amount)))
+      .map((item) => ({
+        label: item.label || "Sonstige Kosten",
+        amount: parseFloat(item.amount),
+      }));
+  
+    const sonstigeSum = sonstigeItems.reduce((sum, item) => sum + item.amount, 0);
+    const total = material + arbeit + wegzeit + sonstigeSum;
+  
     if (total === 0) {
       alert("Keine gültigen Daten vorhanden.");
       return;
     }
-
+  
     const arbeitsPercent = Math.round((arbeit / total) * 100);
     const materialPercent = Math.round((material / total) * 100);
-    const verstecktePercent = Math.round((versteckteKosten / total) * 100);
-
-    const ideal = { arbeit: 30, material: 30, versteckt: 10 };
-    const penalty =
-      Math.abs(arbeitsPercent - ideal.arbeit) +
-      Math.abs(materialPercent - ideal.material) +
-      Math.max(0, verstecktePercent - ideal.versteckt);
-
-    const score = Math.max(0, 1000 - penalty * 10);
-
-    navigate("/FairyScorePage", {
-      state: {
-        analysisData: {
-          score,
-          arbeitskosten: arbeitsPercent,
-          materialkosten: materialPercent,
-          versteckteKosten: verstecktePercent,
-        },
-      },
-    });
+    const anfahrtsPercent = Math.round((wegzeit / total) * 100);
+  
+    const penalty = Math.abs(arbeitsPercent - 30) + Math.abs(materialPercent - 30);
+  
+    const analysisData = {
+      score: Math.max(0, 1000 - penalty * 10),
+  
+      arbeitskosten: arbeitsPercent,
+      arbeitskostenEuro: arbeit,
+  
+      materialkosten: materialPercent,
+      materialkostenEuro: material,
+  
+      anfahrtskosten: anfahrtsPercent,
+      anfahrtskostenEuro: wegzeit,
+  
+      sonstigeKosten: sonstigeItems.map(item => ({
+        label: item.label,
+        amount: item.amount,
+        percent: Math.round((item.amount / total) * 100),
+      })),
+    };
+  
+    navigate("/FairyScorePage", { state: { analysisData } });
   };
+  
 
   return (
     <div className="min-h-screen bg-[#f9f7fc] flex flex-col justify-between px-4 py-6 relative">
@@ -247,7 +255,7 @@ export default function UploadPhoto() {
           <div className="bg-white rounded-2xl shadow-2xl p-12 w-[90%] max-w-2xl text-center">
             <PartyPopper className="w-24 h-24 text-[#573A6F] mx-auto mb-6" />
             <h2 className="text-4xl font-bold text-[#573A6F]">
-              Du hast dir {points} Fairy-Punkte gesichert!
+              Du hast dir {20} Fairy-Punkte gesichert!
             </h2>
           </div>
         </div>
