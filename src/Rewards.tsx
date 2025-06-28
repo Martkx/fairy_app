@@ -16,12 +16,12 @@ export default function RewardsPage() {
   const [selectedReward, setSelectedReward] = useState(null);
 
   const rewards = [
-    { id: 1, name: "Amazon", image: "/public/amazon.jpg" },
-    { id: 2, name: "IKEA", image: "/public/ikea.jpg" },
-    { id: 3, name: "Bauhaus", image: "/public/snipes.jpeg" },
-    { id: 4, name: "MediaMarkt", image: "/public/mediamarkt.png" },
-    { id: 5, name: "Rewe", image: "/public/rewe.jpg" },
-    { id: 6, name: "OBI", image: "/public/hornbach.jpg" },
+    { id: 1, name: "Amazon", image: "/amazon.jpg" },
+    { id: 2, name: "IKEA", image: "/ikea.jpg" },
+    { id: 3, name: "Bauhaus", image: "/snipes.jpeg" },
+    { id: 4, name: "MediaMarkt", image: "/mediamarkt.png" },
+    { id: 5, name: "Rewe", image: "/rewe.jpg" },
+    { id: 6, name: "OBI", image: "/hornbach.jpg" },
   ];
 
   return (
