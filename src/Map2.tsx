@@ -4,6 +4,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import "leaflet/dist/leaflet.css";
 import zipGeoJSON from "./data/2_hoch.geo.json";
+import plzCoords from "./data/plz_coords.json";
 
 // === Datenquellen ===
 const crafts = [
@@ -36,8 +37,6 @@ const expensiveCities = [
   "Regensburg",
   "Augsburg",
 ];
-
-const leipzigCoords = [51.3397, 12.3731];
 
 // === Farbregelung ===
 function getColor(feature, selectedCraft) {
@@ -87,7 +86,7 @@ const ChoroplethLayer = React.memo(function ChoroplethLayer({ selectedCraft }) {
   return <GeoJSON data={zipGeoJSON} style={style} />;
 });
 
-// === Karten-Zoom bei PLZ ===
+// === Karten-Zoom bei Koordinaten ===
 function MapZoom({ coords }) {
   const map = useMap();
   useEffect(() => {
@@ -105,13 +104,15 @@ export default function CraftsmanHeatmapPage() {
   const [zoomTo, setZoomTo] = useState(null);
 
   const handleZipChange = (e) => {
-    const value = e.target.value;
-    setZipCode(value);
+    setZipCode(e.target.value);
+  };
 
-    if (/^04/.test(value)) {
-      setZoomTo(leipzigCoords);
+  const handleZipSearch = () => {
+    const found = plzCoords.find((entry) => entry.plz === zipCode);
+    if (found) {
+      setZoomTo([found.lat, found.lng]);
     } else {
-      setZoomTo(null);
+      alert("Postleitzahl nicht gefunden.");
     }
   };
 
@@ -164,8 +165,14 @@ export default function CraftsmanHeatmapPage() {
               value={zipCode}
               onChange={handleZipChange}
               placeholder="z. B. 04109"
-              className="w-full p-3  text-xl rounded border border-[#D9B4EF] bg-white text-[#573A6F] focus:outline-none focus:ring-2 focus:ring-[#D9B4EF]"
+              className="w-full p-3 text-xl rounded border border-[#D9B4EF] bg-white text-[#573A6F] focus:outline-none focus:ring-2 focus:ring-[#D9B4EF]"
             />
+            <button
+              onClick={handleZipSearch}
+              className="mt-3 px-5 py-2 bg-[#573A6F] text-white font-semibold rounded hover:bg-[#c49adc] transition"
+            >
+              Suchen
+            </button>
           </div>
         </div>
       </main>

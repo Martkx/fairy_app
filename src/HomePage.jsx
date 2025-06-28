@@ -108,44 +108,43 @@ export default function HomePage() {
       </div>
 
       {/* Map Section */}
-      <div className="bg-[#EEDDF6] p-4 rounded-xl text-center flex items-center space-x-4 mx-4 mt-10 cursor-pointer" onClick={() => navigate('/map2')}>
-        <img src="/map.png" alt="Map Icon" className="w-25 h-40 object-contain" />
-        <div className="flex-1">
-          <p className="font-semibold text-4xl text-[#573A6F]">Entdecke die Fairy-Karte</p>
-        </div>
-      </div>
+<div className="bg-[#EEDDF6] p-4 rounded-xl flex items-center space-x-4 mx-4 mt-10 cursor-pointer" onClick={() => navigate('/map2')}>
+  <img src="/map.png" alt="Map Icon" className="w-25 h-40 object-contain" />
+  <div className="flex-1 text-left pl-20">
 
-      {/* Scan Section */}
-      <div className="bg-[#EEDDF6] p-4 rounded-xl text-center flex items-center space-x-4 mx-4 mt-10 cursor-pointer" onClick={() => navigate('/UploadData')}>
-        <img src="file-scan.svg" alt="Scan Icon" className="w-25 h-40 object-contain" />
-        <div className="flex-1">
-          <p className="font-semibold text-4xl text-[#573A6F]">Rechnungen scannen.</p>
-          <p className="font-semibold text-4xl text-[#573A6F]">Punkte sammeln.</p>
-          <p className="font-semibold text-4xl text-[#573A6F]">Belohnungen kassieren.</p>
-        </div>
-      </div>
+    <p className="font-semibold text-4xl text-[#573A6F]">Entdecke die Fairy-Karte</p>
+  </div>
+</div>
 
-      {/* Rewards Section */}
-      <div className="bg-[#EEDDF6] p-4 rounded-xl text-center flex items-center space-x-4 mx-4 mt-10 cursor-pointer" onClick={() => navigate('/Rewards')}>
-        <img src="trophy.svg" alt="Trophy Icon" className="w-25 h-40 object-contain" />
-        <div className="flex-1">
-          <p className="font-semibold text-4xl text-[#573A6F]">Meine Rewards.</p>
-          <p className="font-semibold text-4xl text-[#573A6F]">Meine Erfolge.</p>
-        </div>
-      </div>
+{/* Scan Section */}
+<div className="bg-[#EEDDF6] p-4 rounded-xl flex items-center space-x-4 mx-4 mt-10 cursor-pointer" onClick={() => navigate('/UploadData')}>
+  <img src="file-scan.svg" alt="Scan Icon" className="w-25 h-40 object-contain" />
+  <div className="flex-1 text-left pl-20">
+    <p className="font-semibold text-4xl text-[#573A6F]">Rechnungen scannen.</p>
+    <p className="font-semibold text-4xl text-[#573A6F]">Punkte sammeln.</p>
+    <p className="font-semibold text-4xl text-[#573A6F]">Belohnungen kassieren.</p>
+  </div>
+</div>
 
-      {/* Material Costs Section */}
-      <div className="bg-[#EEDDF6] p-4 rounded-xl text-center flex items-center space-x-4 mx-4 mt-10 cursor-pointer" onClick={() => navigate('/ConstructionCostCheck')}>
-        <img
-          src="chart-candlestick.svg"
-          alt="Chart Icon"
-          className="w-25 h-40 object-contain"
-        />
-        <div className="flex-1">
-          <p className="font-semibold text-4xl text-[#573A6F]">Materialkosten im Blick.</p>
-          <p className="font-semibold text-xl text-[#573A6F] mt-2">Jetzt vergleichen und clever bauen!</p>
-        </div>
-      </div>
+{/* Rewards Section */}
+<div className="bg-[#EEDDF6] p-4 rounded-xl flex items-center space-x-4 mx-4 mt-10 cursor-pointer" onClick={() => navigate('/Rewards')}>
+  <img src="trophy.svg" alt="Trophy Icon" className="w-25 h-40 object-contain" />
+  <div className="flex-1 text-left pl-20">
+    <p className="font-semibold text-4xl text-[#573A6F]">Meine Rewards.</p>
+    <p className="font-semibold text-4xl text-[#573A6F]">Meine Erfolge.</p>
+  </div>
+</div>
+
+{/* Material Costs Section */}
+<div className="bg-[#EEDDF6] p-4 rounded-xl flex items-center space-x-4 mx-4 mt-10 cursor-pointer" onClick={() => navigate('/ConstructionCostCheck')}>
+  <img src="chart-candlestick.svg" alt="Chart Icon" className="w-25 h-40 object-contain" />
+  <div className="flex-1 text-left pl-20">
+    <p className="font-semibold text-4xl text-[#573A6F]">Materialkosten im Blick.</p>
+  </div>
+</div>
+
+
+
 
       <Footer />
     </div>

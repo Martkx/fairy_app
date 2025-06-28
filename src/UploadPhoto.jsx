@@ -33,15 +33,19 @@ export default function UploadPhoto() {
       const img = new Image();
       img.crossOrigin = "anonymous";
       img.onload = () => {
-        const scale = 2;
+        const MAX_WIDTH = 1000;
+        const scale = Math.min(1, MAX_WIDTH / img.width); // Verkleinern, falls nötig
+  
         const canvas = document.createElement("canvas");
         canvas.width = img.width * scale;
         canvas.height = img.height * scale;
-
+  
         const ctx = canvas.getContext("2d");
         ctx.scale(scale, scale);
         ctx.drawImage(img, 0, 0);
-
+  
+        // Optional: Du kannst binarisierung entfernen, wenn du willst
+        /*
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const data = imageData.data;
         for (let i = 0; i < data.length; i += 4) {
@@ -50,11 +54,14 @@ export default function UploadPhoto() {
           data[i] = data[i + 1] = data[i + 2] = binarized;
         }
         ctx.putImageData(imageData, 0, 0);
+        */
+  
         resolve(canvas.toDataURL("image/png"));
       };
       img.src = imageUrl;
     });
   };
+  
 
   const extractTextFromImage = async (imageUrl) => {
     setIsLoading(true);
