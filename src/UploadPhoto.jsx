@@ -5,6 +5,8 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Tesseract from "tesseract.js";
 
+const USE_MOCK_DATA = true; // <<< Mock-Modus aktivieren/deaktivieren
+
 export default function UploadPhoto() {
   const navigate = useNavigate();
   const [image, setImage] = useState(null);
@@ -34,37 +36,47 @@ export default function UploadPhoto() {
       img.crossOrigin = "anonymous";
       img.onload = () => {
         const MAX_WIDTH = 1000;
-        const scale = Math.min(1, MAX_WIDTH / img.width); // Verkleinern, falls nötig
-  
+        const scale = Math.min(1, MAX_WIDTH / img.width);
+
         const canvas = document.createElement("canvas");
         canvas.width = img.width * scale;
         canvas.height = img.height * scale;
-  
+
         const ctx = canvas.getContext("2d");
         ctx.scale(scale, scale);
         ctx.drawImage(img, 0, 0);
-  
-        // Optional: Du kannst binarisierung entfernen, wenn du willst
-        /*
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const data = imageData.data;
-        for (let i = 0; i < data.length; i += 4) {
-          const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
-          const binarized = avg > 180 ? 255 : 0;
-          data[i] = data[i + 1] = data[i + 2] = binarized;
-        }
-        ctx.putImageData(imageData, 0, 0);
-        */
-  
+
         resolve(canvas.toDataURL("image/png"));
       };
       img.src = imageUrl;
     });
   };
-  
 
   const extractTextFromImage = async (imageUrl) => {
     setIsLoading(true);
+
+    if (USE_MOCK_DATA) {
+      // Mock-Analyse simulieren (3 Sekunden warten)
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+
+      const mockMaterial = 1199.90;
+      const mockArbeit = 624.95;
+      const mockWegzeit = 59.50;
+
+      setExtractedData({
+        material: `${mockMaterial.toFixed(2)} €`,
+        arbeit: `${mockArbeit.toFixed(2)} €`,
+        wegzeit: `${mockWegzeit.toFixed(2)} €`,
+      });
+
+      const total = mockMaterial + mockArbeit + mockWegzeit;
+      setPoints(Math.floor(total));
+      setShowPopup(true);
+      setTimeout(() => setShowPopup(false), 5000);
+      setIsLoading(false);
+      return;
+    }
+
     const processedImageUrl = await preprocessImage(imageUrl);
 
     Tesseract.recognize(processedImageUrl, "deu+eng", {
@@ -115,50 +127,45 @@ export default function UploadPhoto() {
     const material = parseFloat((extractedData.material || "0").replace("€", "").replace(",", ".")) || 0;
     const arbeit = parseFloat((extractedData.arbeit || "0").replace("€", "").replace(",", ".")) || 0;
     const wegzeit = parseFloat((extractedData.wegzeit || "0").replace("€", "").replace(",", ".")) || 0;
-  
+
     const sonstigeItems = manualItems
       .filter((item) => item.amount && !isNaN(parseFloat(item.amount)))
       .map((item) => ({
         label: item.label || "Sonstige Kosten",
         amount: parseFloat(item.amount),
       }));
-  
+
     const sonstigeSum = sonstigeItems.reduce((sum, item) => sum + item.amount, 0);
     const total = material + arbeit + wegzeit + sonstigeSum;
-  
+
     if (total === 0) {
       alert("Keine gültigen Daten vorhanden.");
       return;
     }
-  
+
     const arbeitsPercent = Math.round((arbeit / total) * 100);
     const materialPercent = Math.round((material / total) * 100);
     const anfahrtsPercent = Math.round((wegzeit / total) * 100);
-  
+
     const penalty = Math.abs(arbeitsPercent - 30) + Math.abs(materialPercent - 30);
-  
+
     const analysisData = {
       score: Math.max(0, 1000 - penalty * 10),
-  
       arbeitskosten: arbeitsPercent,
       arbeitskostenEuro: arbeit,
-  
       materialkosten: materialPercent,
       materialkostenEuro: material,
-  
       anfahrtskosten: anfahrtsPercent,
       anfahrtskostenEuro: wegzeit,
-  
       sonstigeKosten: sonstigeItems.map(item => ({
         label: item.label,
         amount: item.amount,
         percent: Math.round((item.amount / total) * 100),
       })),
     };
-  
+
     navigate("/FairyScorePage", { state: { analysisData } });
   };
-  
 
   return (
     <div className="min-h-screen bg-[#f9f7fc] flex flex-col justify-between px-4 py-6 relative">
@@ -185,7 +192,6 @@ export default function UploadPhoto() {
               Dokument scannen oder hochladen
             </button>
           </div>
-
 
           {image && (
             <div className="w-full">
