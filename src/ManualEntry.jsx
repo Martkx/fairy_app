@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import { PartyPopper, BarChart2, Plus } from "lucide-react";
+import { ArrowLeft } from "lucide-react"; 
 
 export default function ManualInvoiceEntry() {
   const navigate = useNavigate();
@@ -82,6 +83,13 @@ export default function ManualInvoiceEntry() {
       <Header />
 
       <main className="flex-grow flex flex-col items-center space-y-10">
+        {/* Zurück-Button */}
+        <button
+          onClick={() => navigate(-1)}
+          className="self-start flex items-center text-[#573A6F] font-semibold hover:underline text-3xl"
+        >
+          <ArrowLeft className="mr-2" /> Zurück
+        </button>
         <h1 className="text-4xl font-extrabold text-[#573A6F] mt-8 text-center">
           Rechnungsdaten manuell eingeben
         </h1>

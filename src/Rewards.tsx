@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 import Header from "./Header";
 import Footer from "./Footer";
 
 export default function RewardsPage() {
+  const navigate = useNavigate();
   const totalPoints = 860;
   const invoices = [
     { date: "12.06.2025", description: "Rechnung von Malerbetrieb Müller", points: 120 },
@@ -29,8 +32,16 @@ export default function RewardsPage() {
       <Header />
 
       <main className="flex flex-col px-6 pt-8 pb-24 flex-grow">
+        {/* Zurück-Button */}
+        <button
+          onClick={() => navigate(-1)}
+          className="self-start mb-4 flex items-center text-[#573A6F] font-semibold hover:underline text-3xl"
+        >
+          <ArrowLeft className="mr-2" /> Zurück
+        </button>
+
         <h1 className="text-4xl font-bold text-[#573A6F] text-center mb-4">
-          Deine Fairy-Points
+          Deine Fairy-Punkte
         </h1>
 
         <div className="bg-purple-100 text-[#573A6F] rounded-xl p-6 text-center shadow mb-6">

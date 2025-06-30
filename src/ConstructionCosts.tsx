@@ -1,4 +1,6 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 import Header from "./Header";
 import Footer from "./Footer";
 
@@ -27,6 +29,7 @@ function calculateFairScore(prices) {
 }
 
 export default function ConstructionCostCheck() {
+  const navigate = useNavigate();
   const score = calculateFairScore(materialPrices);
   const scoreText =
     score > 70
@@ -40,6 +43,14 @@ export default function ConstructionCostCheck() {
       <Header />
 
       <main className="flex flex-col px-6 pt-8 pb-24 flex-grow">
+        {/* Zurück-Button */}
+        <button
+          onClick={() => navigate(-1)}
+          className="self-start mb-4 flex items-center text-[#573A6F] font-semibold hover:underline text-3xl"
+        >
+          <ArrowLeft className="mr-2" /> Zurück
+        </button>
+
         <h1 className="text-4xl font-bold text-[#573A6F] text-center mb-6">
           Aktuelle Materialpreise & Baukosten-Check
         </h1>

@@ -5,6 +5,8 @@ import Footer from "./Footer";
 import "leaflet/dist/leaflet.css";
 import zipGeoJSON from "./data/2_hoch.geo.json";
 import plzCoords from "./data/plz_coords.json";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 
 // === Datenquellen ===
 const crafts = [
@@ -45,7 +47,19 @@ function getColor(feature, selectedCraft) {
   let value = 600;
 
   if (selectedCraft) {
-    if (expensiveCities.includes(city)) {
+    if (city === "Leipzig Städte") {
+      value = 1000;
+    }else if (city === "Frankfurt am Main Städte") {
+      value = 2000;
+    }else if (city === "Hamburg Städte") {
+      value = 2000;
+    }else if (city === "Cologne Städte") {
+      value = 2000;
+    }else if (city === "Stuttgart Städte") {
+      value = 2000;
+    }else if (city === "Düsseldorf Städte") {
+      value = 2000;
+    } else if (expensiveCities.includes(city)) {
       value = 2000;
     } else if (type === "Urban District") {
       value = 1050 + Math.floor(Math.random() * 150);
@@ -102,6 +116,7 @@ export default function CraftsmanHeatmapPage() {
   const [selectedCraft, setSelectedCraft] = useState("");
   const [zipCode, setZipCode] = useState("");
   const [zoomTo, setZoomTo] = useState(null);
+  const navigate = useNavigate();
 
   const handleZipChange = (e) => {
     setZipCode(e.target.value);
@@ -121,6 +136,13 @@ export default function CraftsmanHeatmapPage() {
       <Header />
 
       <main className="flex-grow flex flex-col items-center text-[#573A6F] px-6 pt-16 pb-20 relative">
+        {/* Zurück-Button */}
+        <button
+          onClick={() => navigate(-1)}
+          className="self-start flex items-center text-[#573A6F] font-semibold hover:underline text-3xl"
+        >
+          <ArrowLeft className="mr-2" /> Zurück
+        </button>
         <h1 className="text-4xl font-bold mb-10 text-center">Fairy Preiskarte</h1>
 
         {/* Karte */}
